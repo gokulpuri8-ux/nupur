@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Nupur ❤️ Cinematic Love</title>
+
+<style>
+body{
+margin:0;
+overflow:hidden;
+font-family:Georgia,serif;
+color:white;
+text-align:center;
+background:black;
+}
+
+/* Intro Screen */
+
+#intro{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:10;
+}
+
+#intro h1{
+font-size:60px;
+color:red;
+text-shadow:0 0 30px red;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px red;}
+to{text-shadow:0 0 40px pink;}
+}
+
+#enterBtn{
+margin-top:30px;
+padding:15px 40px;
+font-size:20px;
+border:2px solid red;
+background:none;
+color:white;
+cursor:pointer;
+border-radius:40px;
+}
+
+/* Main Scene */
+
+#main{
+display:none;
+height:100vh;
+background:
+linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.85)),
+url("nupur.jpeg");
+background-size:cover;
+background-position:center;
+}
+
+/* Content */
+
+h2{
+margin-top:60px;
+font-size:40px;
+text-shadow:0 0 20px red;
+}
+
+#days{
+margin-top:10px;
+font-size:22px;
+color:#ffcccc;
+}
+
+#love{
+margin-top:40px;
+font-size:28px;
+min-height:60px;
+}
+
+#letter{
+display:none;
+width:80%;
+margin:auto;
+margin-top:30px;
+font-size:24px;
+line-height:1.6;
+}
+
+/* Roses */
+
+.rose{
+position:fixed;
+top:-10px;
+font-size:25px;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+to{transform:translateY(100vh);}
+}
+
+/* Explosion */
+
+.explode{
+position:fixed;
+font-size:25px;
+animation:boom 1s ease-out forwards;
+}
+
+@keyframes boom{
+to{
+transform:translate(var(--x),var(--y)) scale(2);
+opacity:0;
+}
+}
+
+/* Fireworks Canvas */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Intro -->
+<div id="intro">
+<h1>NUPUR ❤️</h1>
+<button id="enterBtn" onclick="enterSite()">Tap To Enter</button>
+</div>
+
+<!-- Main Scene -->
+<div id="main">
+
+<h2>Happy 4 Months ❤️</h2>
+<div id="days"></div>
+
+<div id="love"></div>
+<div id="letter"></div>
+
+<audio id="song" loop>
+<source src="tumhiho.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="fireworks"></canvas>
+
+</div>
+
+<script>
+
+/* Enter */
+
+function enterSite(){
+document.getElementById("intro").style.display="none";
+document.getElementById("main").style.display="block";
+document.getElementById("song").play();
+startExperience();
+}
+
+/* Auto Days Counter */
+
+function updateDays(){
+let start=new Date("October 27, 2025");
+let today=new Date();
+let diff=Math.floor((today-start)/(1000*60*60*24));
+document.getElementById("days").innerHTML=
+"Together for ❤️ "+diff+" Days";
+}
+updateDays();
+
+/* Love Messages */
+
+const msgs=[
+"I love you",
+"Main tumse pyaar karta hoon",
+"Je t’aime",
+"Te amo",
+"Ich liebe dich",
+"Ti amo",
+"Wo ai ni",
+"Saranghae",
+"Ami tomake bhalobashi",
+"Nakupenda",
+"Mi amas vin"
+];
+
+let i=0;
+
+function startExperience(){
+updateDays();
+typeText();
+fallingRoses();
+}
+
+function typeText(){
+if(i<msgs.length){
+document.getElementById("love").innerHTML=msgs[i];
+i++;
+setTimeout(typeText,1200);
+}else{
+showLetter();
+heartExplosion();
+startFireworks();
+}
+}
+
+function showLetter(){
+let L=document.getElementById("letter");
+L.style.display="block";
+L.innerHTML=
+"Nupur ❤️<br><br>"+
+"From 27 October 2025 till today, "+
+"every single day with you is magic. "+
+"You are my happiness, my peace, my forever. "+
+"In every lifetime, I choose you again. "+
+"I love you endlessly ❤️";
+}
+
+/* Roses */
+
+function fallingRoses(){
+setInterval(()=>{
+let r=document.createElement("div");
+r.className="rose";
+r.innerHTML="🌹";
+r.style.left=Math.random()*100+"vw";
+r.style.animationDuration=(Math.random()*3+3)+"s";
+document.body.appendChild(r);
+setTimeout(()=>r.remove(),6000);
+},300);
+}
+
+/* Heart Explosion */
+
+function heartExplosion(){
+let cx=window.innerWidth/2;
+let cy=window.innerHeight/2;
+
+for(let j=0;j<120;j++){
+let h=document.createElement("div");
+h.className="explode";
+h.innerHTML="❤️";
+let angle=Math.random()*2*Math.PI;
+let dist=Math.random()*300;
+h.style.left=cx+"px";
+h.style.top=cy+"px";
+h.style.setProperty('--x',Math.cos(angle)*dist+"px");
+h.style.setProperty('--y',Math.sin(angle)*dist+"px");
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),1000);
+}
+}
+
+/* Fireworks */
+
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+function startFireworks(){
+setInterval(()=>{
+let x=Math.random()*canvas.width;
+let y=Math.random()*canvas.height/2;
+for(let i=0;i<60;i++){
+ctx.fillStyle="hsl("+Math.random()*360+",100%,50%)";
+ctx.fillRect(
+x+(Math.random()-0.5)*150,
+y+(Math.random()-0.5)*150,
+4,4);
+}
+},600);
+}
+
+</script>
+
+</body>
+</html>
